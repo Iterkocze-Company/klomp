@@ -44,13 +44,12 @@ proc parseFile*(path:string):SinglyLinkedList[Token] =
     var endd:bool = false 
     for keyword in finalSeq:
         if keyword == "mutable":
+            var var_type = "";
             if isValidVarName(finalSeq[index + 1]) == false:
                 echo fmt"Variable name expected! but got {finalSeq[index + 1]}";
                 quit(1);
-            return_list.add(Token(name:TokenType.MUTABLE_VARIABLE_DECLARATION));
-            return_list.add(Token(name:TokenType.VAR_NAME, var_name:finalSeq[index + 1]));
             if finalSeq[index + 3] == "Text":
-                return_list.add(Token(name:TokenType.VAR_TYPE, var_type:"string"));
+                var_type = "string";
             else:
                 echo fmt"Unknown variable type {finalSeq[index + 3]}";
                 quit(1);
@@ -64,8 +63,11 @@ proc parseFile*(path:string):SinglyLinkedList[Token] =
                     if chara != '\"':
                         tmp_string.add(chara);
                 again = again + 1;
-            return_list.add(Token(name:TokenType.STRING_ITERAL, string_iteral:tmp_string));
+            return_list.add(Token(name:TokenType.MUTABLE_VARIABLE_DECLARATION, var_name:finalSeq[index + 1], value:tmp_string, var_type:var_type));
         if keyword == "<-":
+            if startsWith(finalSeq[index + 1], "(") == false:
+                echo fmt"Arguments for function {finalSeq[index - 1]} expected.";
+                quit(1);
             again = 0;
             tmp_string = "";
             var functionName = finalSeq[index - 1];

@@ -23,10 +23,10 @@ proc compile*(tokens:SinglyLinkedList[Token]):void =
     var index:int = 0;
     for token in tokens:
         if token.name == TokenType.MUTABLE_VARIABLE_DECLARATION:
-            if tokens.toSeq[index + 2].var_type == "string": #If the variable is a string.
-                OUTPUT_CODE.add(fmt"var {tokens.toSeq[index + 1].var_name}:{tokens.toSeq[index + 2].var_type} = ""{tokens.toSeq[index + 3].string_iteral}"";{'\n'}");
+            if tokens.toSeq[index].var_type == "string": #If the variable is a string.
+                OUTPUT_CODE.add(fmt"var {tokens.toSeq[index].var_name}:{tokens.toSeq[index].var_type} = ""{tokens.toSeq[index].value}"";{'\n'}");
+
         if token.name == TokenType.FUNCTION_CALL:
-            echo fmt"function {tokens.toSeq[index].var_name} called with {tokens.toSeq[index].arguments}";
             OUTPUT_CODE.add(functionCallToStd(tokens.toSeq[index].var_name, tokens.toSeq[index].arguments));
         index = index + 1;
     echo OUTPUT_CODE;

@@ -20,5 +20,5 @@ type Token* = ref object of RootObj
     var_name*:string
     next_token*:TokenType
     var_type*:string
-    string_iteral*:string
+    value*:string
     arguments*:string
