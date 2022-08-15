@@ -19,6 +19,7 @@ proc prepareFiles():void =
 
 proc compile*(tokens:SinglyLinkedList[Token]):void =
     prepareFiles();
+    OUTPUT_CODE.add("import klompstd\n");
     var index:int = 0;
     for token in tokens:
         if token.name == TokenType.MUTABLE_VARIABLE_DECLARATION:
