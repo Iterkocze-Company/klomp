@@ -6,15 +6,19 @@ import strformat
 import osproc
 import ../parser/tokens
 import ./standardFunctions
+import ../options
 
-var OUTPUT_FILE:string = paramStr(1);
+var OUTPUT_FILE:string;
 var OUTPUT_CODE:string;
 
-var hhgh = split(OUTPUT_FILE, '/');
-OUTPUT_FILE = hhgh[hhgh.len() - 2] & "/program.nim";
+proc prepareFiles():void =
+    OUTPUT_FILE = paramStr(1);
+    var hhgh = split(OUTPUT_FILE, '/');
+    OUTPUT_FILE = hhgh[hhgh.len() - 2] & "/program.nim";
 
 
 proc compile*(tokens:SinglyLinkedList[Token]):void =
+    prepareFiles();
     var index:int = 0;
     for token in tokens:
         if token.name == TokenType.MUTABLE_VARIABLE_DECLARATION:
@@ -26,5 +30,6 @@ proc compile*(tokens:SinglyLinkedList[Token]):void =
         index = index + 1;
     echo OUTPUT_CODE;
     writeFile(OUTPUT_FILE, OUTPUT_CODE);
-    discard execCmd(fmt"nim c {OUTPUT_FILE}");
+    if GENERATE_FLAG == false:
+        discard execCmd(fmt"nim c {OUTPUT_FILE}");
     
