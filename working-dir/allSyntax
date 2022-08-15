@@ -1,0 +1,43 @@
+meth benchmark (x : FloatBig) : FloatBig :- {
+  give x * 2; 
+}
+
+meth main () : None :- {
+  mutable a : FloatBig :- GetLine();
+  a :- benchmark <- (a);
+  PutLine <- (["sas ", a, " bob"]);
+
+  give None;
+}
+
+
+
+
+
+
+meth main () : None :- {
+  mutable ls : List :- [1, 2, 4, 8];
+  
+  each (i in ls) {
+    perhaps {
+      PutText <- (["Even: ", i, " | "]);
+    } if (i % 2 = 0);
+    otherwise {
+      PutText <- (["Odd: ", i, " | "])
+    }
+  }
+
+  mutable a : SmallInteger :- 0;
+  during (Right) {
+    a :-+ 1;
+    PutLine <- (["cocks"]);
+    perhaps {
+      goon;
+    } if (a % 3 = 0);
+    otherwise {
+      perhaps {
+        crack;
+      } if (a => 20);
+    }
+  }
+}

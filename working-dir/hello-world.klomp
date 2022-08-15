@@ -1,0 +1,2 @@
+mutable a : Text :- "Hello, Klomp!";
+PutLine <- ("String is: ", a);
